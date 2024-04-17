@@ -1,0 +1,24 @@
+kind: Kustomization
+resources:
+- api-depl.yaml
+- api-service.yaml
+- db-depl.yaml
+- db-service.yaml
+- prometheus-depl.yaml
+images:
+- name: nginx
+  newName: memcached
+replicas:
+- count: 8
+  name: api-deployment
+configMapGenerator:
+- literals:
+  - domain=kodekloud.com
+  - subdomain=api
+  name: domain-config
+secretGenerator:
+- literals:
+  - username=root
+  - password=rootpassword123
+  name: my-secret
+  type: Opaque
