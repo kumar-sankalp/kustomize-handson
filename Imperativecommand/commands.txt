@@ -1,0 +1,13 @@
+kustomize edit set namespace production
+ kustomize edit set label role:admin org:test
+  $ kustomize edit set replicas api-deployment=8
+  replicas:
+  - count: 8
+    name: api-deployment
+---? kustomize edit set image nginx=memcached
+----?kustomize edit set replicas api-deployment=8
+
+kustomize edit add configmap domain-config --from-literal=domain=example.com --from-literal=subdomain=api
+
+  kustomize edit add secret  my-secret --from-literal=username=root -
+-from-literal=password=rootpassword123
